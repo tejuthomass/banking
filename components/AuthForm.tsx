@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
+import Image from "next/image"
 import Link from 'next/link'
 import React, { useState } from 'react'
-import Image from "next/image"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -22,15 +22,13 @@ import CustomInput from './CustomInput';
 import { authFormSchema } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { signUp } from '@/lib/actions/user.action';
-import SignIn from '@/app/(auth)/sign-in/page';
+import { signIn, signUp } from '@/lib/actions/user.actions';
   
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
-    const [user, setUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-
-    const formSchema = authFormSchema(type);
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const formSchema = authFormSchema(type);
 
       // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,26 +40,26 @@ const AuthForm = ({ type }: { type: string }) => {
   })
  
   // 2. Define a submit handler.
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(true)
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
     try {
       // Sign up with Appwrite & create a plaid token
       
       if (type === 'sign-up') {
-        // const newUser = await signUp(data);
-        // setUser(newUser);
+        const newUser = await signUp(data);
+        setUser(newUser);
       }
 
       if (type === 'sign-in') {
-      //   const response = await SignIn({
-      //     email: data.email,
-      //     password: data.password,
-      //   })
-      //   if (response) router.push('/')
+        const response = await signIn({
+          email: data.email,
+          password: data.password,
+        })
+        if (response) router.push('/')
       }
       
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -74,7 +72,7 @@ const AuthForm = ({ type }: { type: string }) => {
   return (
     <section className='auth-form'>
         <header className='flex flex-col gap-5 md:gap-8'>
-            <Link href="/" className='cursor-pointer items-center flex gap-1'>
+            <Link href="/" className='cursor-pointer flex items-center gap-1'>
                 <Image src="/icons/logo.svg"
                     width={34}
                     height={34}
@@ -93,7 +91,7 @@ const AuthForm = ({ type }: { type: string }) => {
                     }
                     <p className='text-16 font-normal text-gray-600'>
                         {user
-                        ? 'Link you account to get started'
+                        ? 'Link your account to get started'
                         : 'Please enter your details'
                         }
 
@@ -136,7 +134,7 @@ const AuthForm = ({ type }: { type: string }) => {
               control={form.control} 
               name='city' 
               label='City' 
-              placeholder='Example: Chennai'
+              placeholder='Example: Atlanta'
             />
           
           <div className='flex gap-4'>
@@ -144,13 +142,13 @@ const AuthForm = ({ type }: { type: string }) => {
               control={form.control} 
               name='state' 
               label='State' 
-              placeholder='Example: Tamil Nadu'
+              placeholder='Example: GA'
             />
              <CustomInput 
               control={form.control} 
               name='postalCode' 
               label='Postal Code' 
-              placeholder='Example: 600001'
+              placeholder='Example: 40202'
             />
           </div>
 
@@ -159,13 +157,13 @@ const AuthForm = ({ type }: { type: string }) => {
               control={form.control} 
               name='dateOfBirth' 
               label='Date of Birth' 
-              placeholder='DD-MM-YYYY'
+              placeholder='YYYY-MM-DD'
             />
             <CustomInput 
               control={form.control} 
-              name='aadhar' 
-              label='Aadhar Number' 
-              placeholder='Example: 265385644663'
+              name='ssn' 
+              label='SSN' 
+              placeholder='Example: 1234'
             />
           </div>
           </>
