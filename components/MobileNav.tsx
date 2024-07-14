@@ -24,20 +24,24 @@ const MobileNav = ({ user }: MobileNavProps) => {
         <Sheet>
         <SheetTrigger>
             <Image
-            src='/icons/hamburger.svg'
-            width={30}
-            height={30}
-            alt="menu"
-            className="cursor-pointer" 
+              src='/icons/hamburger.svg'
+              width={30}
+              height={30}
+              alt="menu"
+              className="cursor-pointer" 
             />
         </SheetTrigger>
         <SheetContent side="left" className="border-none bg-white">
-          <Link href="/" className='cursor-pointer items-center flex gap-1 px-4'>
-                <Image src="/icons/logo.svg"
-                    width={34}
-                    height={34}
-                    alt='Horizon logo'
-                />
+          <Link 
+            href="/" 
+            className='cursor-pointer flex items-center gap-1 px-4'
+          >
+            <Image 
+              src="/icons/logo.svg"
+              width={34}
+              height={34}
+              alt='Horizon logo'
+            />
                 <h1 className='text-26 font-ibm-plex-serif font-bold text-black-1'>Horizon</h1>
             </Link>
 
